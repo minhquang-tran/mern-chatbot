@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  chat: [chatSchema],
+  chats: [chatSchema],
 });
 
 export default mongoose.model("User", userSchema);
