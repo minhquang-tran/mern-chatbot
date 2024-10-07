@@ -18,6 +18,7 @@ const TypingAnim = () => {
         color: "white",
         display: "inline-block",
         textShadow: "1px 1px 20px #000",
+        lineHeight: "1.5em",
       }}
       repeat={Infinity}
     />
