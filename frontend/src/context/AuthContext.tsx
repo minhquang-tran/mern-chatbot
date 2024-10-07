@@ -9,6 +9,7 @@ import {
   checkAuthStatus,
   loginUser,
   logoutUser,
+  signupUser,
 } from "../helpers/api-communicator";
 
 type User = {
@@ -22,8 +23,8 @@ type UserAuth = {
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
-
 const AuthContext = createContext<UserAuth | null>(null);
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,7 +47,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoggedIn(true);
     }
   };
-  const signup = async (name: string, email: string, password: string) => {};
+  const signup = async (name: string, email: string, password: string) => {
+    const data = await signupUser(name, email, password);
+    if (data) {
+      setUser({ email: data.email, name: data.name });
+      setIsLoggedIn(true);
+    }
+  };
   const logout = async () => {
     await logoutUser();
     setIsLoggedIn(false);
@@ -58,8 +65,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user,
     isLoggedIn,
     login,
-    signup,
     logout,
+    signup,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
