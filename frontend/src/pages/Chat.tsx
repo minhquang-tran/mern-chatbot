@@ -4,7 +4,11 @@ import { useAuth } from "../context/AuthContext";
 import red from "@mui/material/colors/red";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from "react-icons/io";
-import { getUserChat, sendChatRequest } from "../helpers/api-communicator";
+import {
+  deleteUserChats,
+  getUserChat,
+  sendChatRequest,
+} from "../helpers/api-communicator";
 import toast from "react-hot-toast";
 type Message = {
   role: "user" | "model";
@@ -24,6 +28,17 @@ const Chat = () => {
     const chatData = await sendChatRequest(content);
     setChatMessages([...chatData.chats]);
     //
+  };
+  const handleDeleteChats = async () => {
+    try {
+      toast.loading("Deleting Chats", { id: "deletechats" });
+      await deleteUserChats();
+      setChatMessages([]);
+      toast.success("Chats Deleted", { id: "deletechats" });
+    } catch (error) {
+      console.log(error);
+      toast.error("Deleting Chats Failed", { id: "deletechats" });
+    }
   };
   useLayoutEffect(() => {
     if (auth?.isLoggedIn && auth.user) {
@@ -88,6 +103,7 @@ const Chat = () => {
             Education, etc. But avoid sharing personal information
           </Typography>
           <Button
+            onClick={handleDeleteChats}
             sx={{
               width: "200px",
               my: "auto",
