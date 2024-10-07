@@ -39,9 +39,7 @@ const ChatItem = ({
         my: 1,
       }}
     >
-      <Avatar
-        sx={{ ml: "0", bgcolor: role === "user" ? "black" : "transparent" }}
-      >
+      <Avatar sx={{ ml: "0", bgcolor: role === "user" ? "black" : "white" }}>
         {role === "model" ? (
           <img src="gemini.png" alt="gemini" width={"30px"} />
         ) : (
